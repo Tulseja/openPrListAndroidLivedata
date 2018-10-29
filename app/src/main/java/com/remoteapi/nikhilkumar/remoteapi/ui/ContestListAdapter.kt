@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.remoteapi.nikhilkumar.remoteapi.R
 import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.Contests
 
-import java.util.*
+
 
 class ContestListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
@@ -25,11 +25,6 @@ class ContestListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     }
 
-    /*Contests(code=TFB9BEDA, type=PUBLIC, playingNumber=2, maxTeams=-1,
-    maxTeamPerUser=5, creatorName=INIDAMYTeam3, coverImgUrl=null,
-    winnerPrizeList=[WinnerPrize(totalWinner=8, totalPrize=10, currency=COIN),
-    WinnerPrize(totalWinner=5, totalPrize=21, currency=WINNING)],
-    userTeamList=[UserTeam(name=TEAM 1, rank=1, points=0)])*/
 
     override fun getItemViewType(position: Int): Int {
 

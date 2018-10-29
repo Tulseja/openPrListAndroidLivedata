@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/rank"
         android:id="@+id/rank_tv"
-        android:textColor="#fffff"
+        android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         />
     <TextView

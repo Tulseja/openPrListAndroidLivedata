@@ -21,7 +21,7 @@
         android:id="@+id/team_value_tv"
         app:layout_constraintLeft_toRightOf="@id/rank_value_tv"
         app:layout_constraintRight_toLeftOf="@id/points_value_tv"
-        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintHorizontal_bias="0.27"
         />
     <TextView
         android:layout_width="wrap_content"
