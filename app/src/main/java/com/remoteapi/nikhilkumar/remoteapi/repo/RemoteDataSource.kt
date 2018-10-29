@@ -31,15 +31,16 @@ import com.google.gson.reflect.TypeToken
 class RemoteDataSource(private val appContext: Context){
 
     companion object {
-
+        var DEFAULT_PAGE_NUM =1
         fun getInstance(appContext: Application): RemoteDataSource {
             return RemoteDataSource(appContext)
         }
     }
 
+    private fun isPaginationState(pageNum: Int) = pageNum > DEFAULT_PAGE_NUM
     fun getMyContestDetails(pageNum : Int , pageSize : Int) : LiveData<Resource<List<MyContestAPIElement>>> {
         val data = MutableLiveData<Resource<List<MyContestAPIElement>>>()
-        data.value = Resource.loading()
+        data.value = Resource.loading(isPaginatedLoading = isPaginationState(pageNum))
 
         val url = "http://stgapi.cricplay.com/cric/user/test/27243041-46a3-4588-9445-9b71d24da6b9/contest?page=$pageNum&size=$pageSize"
 

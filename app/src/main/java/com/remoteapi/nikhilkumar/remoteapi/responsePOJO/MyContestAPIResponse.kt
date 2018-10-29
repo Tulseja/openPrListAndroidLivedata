@@ -39,4 +39,4 @@ data class WinnerPrize(@SerializedName("totalWinner") var totalWinner: Int? = nu
 
 data class UserTeam(@SerializedName("name") var name: String? = null,
                     @SerializedName("rank") var rank: Int? = null,
-                    @SerializedName("points") var points: Int? = null)
+                    @SerializedName("points") var points: Float? = null)

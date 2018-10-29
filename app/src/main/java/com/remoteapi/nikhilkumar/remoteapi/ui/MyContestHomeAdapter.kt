@@ -10,42 +10,34 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.remoteapi.nikhilkumar.remoteapi.R
 import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.MyContestAPIElement
+import com.remoteapi.nikhilkumar.remoteapi.utils.PaginationAdapter
 import com.remoteapi.nikhilkumar.remoteapi.utils.loadImage
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MyContestHomeAdapter : RecyclerView.Adapter<MyContestHomeAdapter.AllContestViewHolder>(){
-
-    private val _allContestList = mutableListOf<MyContestAPIElement>()
-    protected var scrollListener: RecyclerView.OnScrollListener? = null
-    private val visibleThreshold = 5
-    private var lastVisibleItem: Int = 0
-    private var totalItemCount: Int = 0
-    var isLoading: Boolean = false
-
-    fun updateData(contestList : List<MyContestAPIElement>){
-        if (_allContestList.isEmpty()) {
-            _allContestList.addAll(contestList)
-            notifyItemRangeChanged(0,_allContestList.size)
-        }
-    }
-
-
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): AllContestViewHolder {
-        val view = LayoutInflater.from(p0.context).inflate(R.layout.my_contest_list_tem, p0, false)
+class MyContestHomeAdapter : PaginationAdapter<MyContestAPIElement>() {
+    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.my_contest_list_tem, parent, false)
         return AllContestViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return _allContestList.size
+    override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+        if (holder is AllContestViewHolder) {
+            holder.bind(dataList[position])
+        }
     }
 
-    override fun onBindViewHolder(p0: AllContestViewHolder, p1: Int) {
-        p0.bind(_allContestList[p1])
+    override fun addLoadingViewFooter() {
+        addLoadingViewFooter(MyContestAPIElement())
     }
 
+    fun updateData(contestList : List<MyContestAPIElement>){
+        val currentSize = itemCount
+        dataList.addAll(contestList)
+        notifyItemRangeInserted(currentSize, contestList.size)
+    }
 
-    inner class AllContestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+     class AllContestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val context by lazy { itemView.context }
         val teamOneIv by lazy { itemView.findViewById<ImageView>(R.id.team1_iv) }

@@ -17,12 +17,30 @@ import obtainViewModel
 
 class MyContestHomeActivity : AppCompatActivity(){
 
+    private var isLoading = false
+    private var isLastPage = false
     lateinit var viewModel: MyContestListViewModel
+    var mHomeAdapter : MyContestHomeAdapter ? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         observeViewModel()
-        setOnScrollListener()
+        initializeRecyclerView()
+
+    }
+
+
+    fun initializeRecyclerView(){
+        val linearLayoutManager = LinearLayoutManager(this)
+        homeRv.layoutManager = linearLayoutManager
+        homeRv.addOnScrollListener(OnScrollListener(linearLayoutManager))
+
+        mHomeAdapter = MyContestHomeAdapter()
+        homeRv.adapter = mHomeAdapter
+
+
+        val decorator = DividerItemDecoration( this,LinearLayoutManager.VERTICAL)
+        homeRv.addItemDecoration(decorator)
     }
 
     private fun observeViewModel(){
@@ -34,19 +52,26 @@ class MyContestHomeActivity : AppCompatActivity(){
             it?.let {
                 when (it.status) {
                     Status.LOADING -> {
-                        homeRv.hide()
-                        errorLyt.hide()
-                        progress_bar.show()
+                        if (!it.isPaginatedLoading) {
+                            homeRv.hide()
+                            errorLyt.hide()
+                            progress_bar.show()
+                        }
+                        isLoading = true
+                    errorLyt.hide()
                     }
                     Status.ERROR -> {
+                        isLoading = false
                         progress_bar.hide()
                         errorLyt.show()
                         homeRv.hide()
+                        mHomeAdapter?.removeLoadingViewFooter()
                     }
                     Status.SUCCESS -> {
+                        isLoading = false
                         progress_bar.hide()
                         errorLyt.hide()
-
+                        mHomeAdapter?.removeLoadingViewFooter()
                         it.data?.let {
                             homeRv.show()
                             bindView(it)
@@ -61,15 +86,17 @@ class MyContestHomeActivity : AppCompatActivity(){
 
 
     private fun bindView(contestList : List<MyContestAPIElement>){
-        val adapter = MyContestHomeAdapter()
-        homeRv.adapter = adapter
-        adapter.updateData(contestList)
-
-        val decorator = DividerItemDecoration( this,LinearLayoutManager.VERTICAL)
-        homeRv.addItemDecoration(decorator)
+        mHomeAdapter?.updateData(contestList)
     }
 
-    private fun setOnScrollListener(){
+    private fun loadNextPage() {
+        mHomeAdapter?.addLoadingViewFooter()
+        viewModel.loadNextPage()
+    }
 
+    inner class OnScrollListener(layoutManager: LinearLayoutManager) : PaginationScrollListener(layoutManager) {
+        override fun isLoading() = isLoading
+        override fun loadMoreItems() = loadNextPage()
+        override fun isLastPage() = isLastPage
     }
 }

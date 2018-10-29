@@ -24,4 +24,10 @@ class MyContestListViewModel(private val repository: Repository) : ViewModel() {
         myContestParamsLiveData.value = pair
     }
 
+    fun loadNextPage() {
+        pageNum++
+        val pair = Pair(pageNum,pageSize)
+        myContestParamsLiveData.value = pair
+    }
+
 }

@@ -25,7 +25,7 @@ class RepositoryImpl(private val remoteDataSource: RemoteDataSource) : Repositor
                     Resource.error(it.error)
                 }
                 Status.LOADING -> {
-                    Resource.loading()
+                    Resource.loading(it.isPaginatedLoading)
                 }
             }
         }
