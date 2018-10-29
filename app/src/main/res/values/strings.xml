@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">RemoteAPI</string>
+    <string name="generic_error_string">Something Went Wrong</string>
+    <string name="retry">Retry</string>
+    <string name="total_prize">TOTAL PRIZE</string>
+    <string name="coins">COINS</string>
+    <string name="winners">WINNERS</string>
+    <string name="playing">PLAYING</string>
+    <string name="teams_per_player">TEAMS/PLAYER</string>
+    <string name="max_players">MAX PLAYERS</string>
+    <string name="rank">RANK</string>
+    <string name="team">TEAM</string>
+    <string name="points">POINTS</string>
+    <string name="mega_contest">MEGA CONTEST</string>
+    <string name="pvt_contest">PRIVATE CONTEST</string>
+</resources>

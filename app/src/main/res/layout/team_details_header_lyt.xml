@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="3dp"
+    android:background="#54000000"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rank"
+        android:id="@+id/rank_tv"
+        android:textColor="#fffff"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/team"
+        android:id="@+id/team_tv"
+        app:layout_constraintLeft_toRightOf="@id/rank_tv"
+        app:layout_constraintRight_toLeftOf="@id/points_tv"
+        app:layout_constraintHorizontal_bias="0.2"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/points"
+        android:fontFamily="sans-serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="10dp"
+        android:id="@+id/points_tv"
+        />
+
+
+</android.support.constraint.ConstraintLayout>
