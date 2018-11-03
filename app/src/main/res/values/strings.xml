@@ -13,4 +13,5 @@
     <string name="points">POINTS</string>
     <string name="mega_contest">MEGA CONTEST</string>
     <string name="pvt_contest">PRIVATE CONTEST</string>
+    <string name="avg_cost"> Average Cost : %s</string>
 </resources>
