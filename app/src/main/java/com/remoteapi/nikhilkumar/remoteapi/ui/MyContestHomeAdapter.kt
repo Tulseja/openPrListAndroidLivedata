@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.remoteapi.nikhilkumar.remoteapi.R
 import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.MyContestAPIElement
+import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.PRObject
 import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.Restaurant
 import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.Restaurants
 import com.remoteapi.nikhilkumar.remoteapi.utils.PaginationAdapter
@@ -19,25 +20,29 @@ import com.remoteapi.nikhilkumar.remoteapi.utils.loadImage
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MyContestHomeAdapter : PaginationAdapter<Restaurants>() {
+class MyContestHomeAdapter : PaginationAdapter<PRObject>() {
     override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.res_list_item, parent, false)
-        return RestaurantViewHolder(view)
+        return PRViewHolder(view)
     }
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        if (holder is RestaurantViewHolder) {
+        /*if (holder is RestaurantViewHolder) {
+            holder.bind(dataList[position])
+        }*/
+
+        if (holder is PRViewHolder) {
             holder.bind(dataList[position])
         }
     }
 
     override fun addLoadingViewFooter() {
-        addLoadingViewFooter(Restaurants())
+        addLoadingViewFooter(PRObject())
     }
 
-    fun updateData(isSearchResult : Boolean, resList : List<Restaurants>){
-
-        if(isSearchResult){
+    /*fun updateData(isSearchResult : Boolean, resList : List<Restaurants>){*/
+    fun updateData(resList : List<PRObject>){
+        /*if(isSearchResult){
             dataList.clear()
             dataList.addAll(resList)
             notifyDataSetChanged()
@@ -45,7 +50,10 @@ class MyContestHomeAdapter : PaginationAdapter<Restaurants>() {
             val currentSize = itemCount
             dataList.addAll(resList)
             notifyItemRangeInserted(currentSize, dataList.size)
-        }
+        }*/
+        val currentSize = itemCount
+        dataList.addAll(resList)
+        notifyItemRangeInserted(currentSize, dataList.size)
     }
 
      /*class AllContestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -93,7 +101,7 @@ class MyContestHomeAdapter : PaginationAdapter<Restaurants>() {
 
     }*/
 
-    class RestaurantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    /*class RestaurantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val context by lazy { itemView.context }
         val logoIv by lazy { itemView.findViewById<ImageView>(R.id.logoIv) }
@@ -113,5 +121,30 @@ class MyContestHomeAdapter : PaginationAdapter<Restaurants>() {
                 ratingBar.rating = resElement.restraunt?.rating?.avgRating?.toFloat()!!
         }
 
+    }*/
+
+    class PRViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val context by lazy { itemView.context }
+        val logoIv by lazy { itemView.findViewById<ImageView>(R.id.logoIv) }
+        val titleTv by lazy { itemView.findViewById<TextView>(R.id.resNameTv) }
+
+        val prTitleTv by lazy { itemView.findViewById<TextView>(R.id.prTitleTv) }
+        /*val ratingBar by lazy { itemView.findViewById<AppCompatRatingBar>(R.id.tv_rating)  }*/
+
+
+
+        fun bind(prElement : PRObject) {
+            if(!TextUtils.isEmpty(prElement.userObj?.imgUrl))
+                logoIv.loadImage(prElement.userObj?.imgUrl)
+            titleTv.text = prElement.userObj?.loginName
+            prTitleTv.text = prElement.prTitle
+            /*if(!TextUtils.isEmpty(resElement.restraunt?.rating?.avgRating))
+                ratingBar.rating = resElement.restraunt?.rating?.avgRating?.toFloat()!!*/
+        }
+
     }
+
+
+
 }

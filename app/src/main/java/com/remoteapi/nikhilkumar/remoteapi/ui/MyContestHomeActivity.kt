@@ -7,13 +7,11 @@ import android.support.v7.widget.DividerItemDecoration
 
 import android.support.v7.widget.LinearLayoutManager
 import com.remoteapi.nikhilkumar.remoteapi.R
-import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.MyContestAPIElement
-import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.Restaurant
-import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.Restaurants
-import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.ZomatoAPIResponse
+import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.*
 import com.remoteapi.nikhilkumar.remoteapi.utils.Status
 import com.remoteapi.nikhilkumar.remoteapi.utils.*
 import com.remoteapi.nikhilkumar.remoteapi.viewModel.MyContestListViewModel
+import com.remoteapi.nikhilkumar.remoteapi.viewModel.OpenPRListViewModel
 import com.remoteapi.nikhilkumar.remoteapi.viewModel.RestaurantListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import obtainViewModel
@@ -23,10 +21,10 @@ class MyContestHomeActivity : AppCompatActivity(){
 
     private var isLoading = false
     private var isLastPage = false
-    lateinit var viewModel: RestaurantListViewModel /*MyContestListViewModel*/
+    lateinit var viewModel: OpenPRListViewModel /*RestaurantListViewModel*/ /*MyContestListViewModel*/
     var mHomeAdapter : MyContestHomeAdapter ? = null
 
-    var serachObserver = Observer<Resource<List<Restaurants>>>{
+    var serachObserver = Observer<Resource<List<PRObject>>>{
         it?.let {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -36,7 +34,7 @@ class MyContestHomeActivity : AppCompatActivity(){
                         it.data?.let {
                             homeRv.show()
                             if(it.isNotEmpty()){
-                                bindView(true,it)
+                                bindView(it)
                             }
                         }
                 }
@@ -63,16 +61,16 @@ class MyContestHomeActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        observeViewModel()
-        observeZomatoListViewModel()
+        /*observeZomatoListViewModel()*/
         initializeRecyclerView()
-
+        viewModel = obtainViewModel(OpenPRListViewModel::class.java)
         searchIv.setOnClickListener { hitSearchAPI() }
 
-        viewModel.searchApiResult.observe(this,serachObserver)
+        viewModel.openPRListLiveData.observe(this,serachObserver)
     }
 
     fun hitSearchAPI(){
-        viewModel.setSearchQuery(searchTv.text.toString())
+        viewModel.setUserName(searchTv.text.toString())
     }
 
     fun initializeRecyclerView(){
@@ -89,7 +87,7 @@ class MyContestHomeActivity : AppCompatActivity(){
     }
 
 
-    private fun observeZomatoListViewModel(){
+    /*private fun observeZomatoListViewModel(){
         viewModel = obtainViewModel(RestaurantListViewModel::class.java)
         viewModel.setEntityId(280)
 
@@ -129,7 +127,7 @@ class MyContestHomeActivity : AppCompatActivity(){
 
         })
 
-    }
+    }*/
 
     /*private fun observeViewModel(){
         viewModel = obtainViewModel(MyContestListViewModel::class.java)
@@ -173,14 +171,18 @@ class MyContestHomeActivity : AppCompatActivity(){
     }*/
 
 
-    private fun bindView(isSearchResult : Boolean , resList : List<Restaurants>){
+    /*private fun bindView(isSearchResult : Boolean , resList : List<Restaurants>){
 
         mHomeAdapter?.updateData(isSearchResult,resList)
+    }
+*/
+    private fun bindView(prList : List<PRObject>){
+        mHomeAdapter?.updateData(prList)
     }
 
     private fun loadNextPage() {
         mHomeAdapter?.addLoadingViewFooter()
-        viewModel.loadNextPage()
+        /*viewModel.loadNextPage()*/
     }
 
     inner class OnScrollListener(layoutManager: LinearLayoutManager) : PaginationScrollListener(layoutManager) {
