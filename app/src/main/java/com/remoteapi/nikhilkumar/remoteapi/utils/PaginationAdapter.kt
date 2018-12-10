@@ -45,7 +45,7 @@ abstract class PaginationAdapter<D> : RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     protected fun addLoadingViewFooter(emptyDataObject: D) {
-        if (dataList.size > 0) {
+        if (dataList.size > 0 && !isLoadingViewAdded) {
             isLoadingViewAdded = true
             dataList.add(emptyDataObject)
             notifyItemInserted(dataList.size - 1)

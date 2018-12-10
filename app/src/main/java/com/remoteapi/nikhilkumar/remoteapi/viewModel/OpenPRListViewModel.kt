@@ -14,6 +14,8 @@ class OpenPRListViewModel(private val repository: Repository) : ViewModel() {
 
 
     fun setUserName(userName : String){
+        //on search icon hit. new search is being processed. so back to page 1.
+        pageNum = 1
         repoNameLiveData.value = userName
     }
 
@@ -23,5 +25,9 @@ class OpenPRListViewModel(private val repository: Repository) : ViewModel() {
         repository.getOpenPRList(pageNum,pageSize,it)
     }
 
+    fun loadNextPage(userName : String) {
+        ++pageNum
+        repoNameLiveData.value = userName
+    }
 
 }
