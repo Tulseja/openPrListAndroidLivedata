@@ -4,7 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.remoteapi.nikhilkumar.remoteapi.repo.Repository
-import com.remoteapi.nikhilkumar.remoteapi.viewModel.OpenPRListViewModel
+import com.remoteapi.nikhilkumar.remoteapi.viewModel.GameImageListViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(
@@ -15,7 +15,7 @@ class ViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
-                    isAssignableFrom(OpenPRListViewModel::class.java) -> OpenPRListViewModel(repository)
+                    isAssignableFrom(GameImageListViewModel::class.java) -> GameImageListViewModel(repository)
                     else -> throw IllegalArgumentException("Unknown viewmodel class ${modelClass.name}")
                 }
             } as T

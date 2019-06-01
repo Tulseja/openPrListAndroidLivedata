@@ -8,23 +8,25 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.remoteapi.nikhilkumar.remoteapi.R
+import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.ImageBitmapContainer
 import com.remoteapi.nikhilkumar.remoteapi.responsePOJO.PRObject
 import com.remoteapi.nikhilkumar.remoteapi.utils.PaginationAdapter
 import com.remoteapi.nikhilkumar.remoteapi.utils.loadImage
 
 
-class MyContestHomeAdapter : PaginationAdapter<PRObject>() {
+class GameHomeAdapter : PaginationAdapter<Any>() {
     override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.res_list_item, parent, false)
-        return PRViewHolder(view)
+        return ImageBitmapHolder(view)
     }
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
 
-        if (holder is PRViewHolder) {
+        if(holder is ImageBitmapHolder){
             holder.bind(dataList[position])
         }
     }
@@ -33,36 +35,24 @@ class MyContestHomeAdapter : PaginationAdapter<PRObject>() {
         addLoadingViewFooter(PRObject())
     }
 
-    fun updateData(isSearchResult : Boolean , resList : List<PRObject>){
-        if(isSearchResult) {
-            dataList.clear()
-            dataList.addAll(resList)
-            notifyDataSetChanged()
-        } else {
-            val currentSize = itemCount
-            dataList.addAll(resList)
-            notifyItemRangeInserted(currentSize, dataList.size)
-        }
+    fun updateData(resList : List<Int>){
+        val currentSize = itemCount
+        dataList.addAll(resList)
+        notifyItemRangeInserted(currentSize, dataList.size)
     }
 
 
-
-    class PRViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ImageBitmapHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val context by lazy { itemView.context }
-        val logoIv by lazy { itemView.findViewById<ImageView>(R.id.logoIv) }
-        val titleTv by lazy { itemView.findViewById<TextView>(R.id.resNameTv) }
-
-        val prTitleTv by lazy { itemView.findViewById<TextView>(R.id.prTitleTv) }
+        val logoIv by lazy { itemView.findViewById<Button>(R.id.logoIv) }
 
 
 
-
-        fun bind(prElement : PRObject) {
-            if(!TextUtils.isEmpty(prElement.userObj?.imgUrl))
-                logoIv.loadImage(prElement.userObj?.imgUrl)
-            titleTv.text = prElement.userObj?.loginName
-            prTitleTv.text = prElement.prTitle
+        fun bind(element : Any) {
+            if(element is Int) {
+                logoIv.text = element.toString()
+            }
 
         }
 

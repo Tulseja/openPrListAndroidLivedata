@@ -32,50 +32,6 @@ class RemoteDataSource(private val appContext: Context){
 
     private fun isPaginationState(pageNum: Int) = pageNum > DEFAULT_PAGE_NUM
 
-    private fun getHeaderForAPI(): Map<String, String?> {
-        val header = HashMap<String, String?>()
-//        header[APIConstants.AUTHORIZATION] = APIConstants.AUTH_VALUE
-        /*header[APIConstants.USER_KEY] = APIConstants.USER_KEY_VALUE
-        header[APIConstants.CONTENT_TYPE] = APIConstants.CONTENT_TYPE_VALUE*/
-        return header
-    }
-
-
-    fun getOpenPrList(pageNum: Int,pageSize : Int,repoName : String) : LiveData<Resource<List<PRObject>>>{
-        val data = MutableLiveData<Resource<List<PRObject>>>()
-        data.value = Resource.loading(isPaginatedLoading =  isPaginationState(pageNum))
-
-        val url = "https://api.github.com/repos/$repoName/pulls?page=$pageNum&per_page=$pageSize"
-
-        if (!URLUtil.isValidUrl(url)) {
-            data.value = Resource.error(VolleyError("Url is Invalid"),isPaginationState(pageNum))
-        } else {
-            val queue = Volley.newRequestQueue(appContext)
-
-            val getRequest: StringRequest = object : StringRequest(Request.Method.GET, url, Response.Listener {
-                // response
-                val gson = Gson()
-                val myContestListType = object : TypeToken<List<PRObject>>() {}.type
-                val listLiveData : List<PRObject> = gson.fromJson(it, myContestListType)
-                Log.d("AK",it)
-                data.value = Resource.success(listLiveData,isPaginationState(pageNum))
-
-            }, Response.ErrorListener {
-                data.value = Resource.error(it,isPaginationState(pageNum))
-            })
-
-             {
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String?> {
-                    val params = getHeaderForAPI()
-                    return params
-                }
-            }
-            queue.add(getRequest);
-        }
-        return data
-
-    }
 
 
 

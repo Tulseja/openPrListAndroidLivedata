@@ -7,4 +7,7 @@ object APIConstants {
     const val USER_KEY_VALUE = "c750173e8cf7e5fdc2c331cf897ee8c3"
     const val CONTENT_TYPE = "Content-Type"
     const val CONTENT_TYPE_VALUE = "application/json"
+    const val WORKER_THREAD = "workerThread"
+    const val CURRENT_LEVEL = "currLevel"
+    const val CURRENT_SCORE = "currScore"
 }

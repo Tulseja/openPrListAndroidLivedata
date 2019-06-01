@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RemoteAPI</string>
+    <string name="app_name">Memory Game</string>
     <string name="generic_error_string">Something Went Wrong</string>
     <string name="retry">Retry</string>
     <string name="total_prize">TOTAL PRIZE</string>
